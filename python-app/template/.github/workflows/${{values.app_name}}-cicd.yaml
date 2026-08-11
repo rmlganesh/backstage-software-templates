@@ -36,7 +36,7 @@ jobs:
 
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ '${{ secrets.GH_PAT }}' }}
 
       - name: Install yq
         run: |
@@ -47,7 +47,9 @@ jobs:
         shell: bash
         run: |
           echo ${{ '${{needs.ci.outputs.commit_id}}' }}
-          /tmp/yq -Yi '.image.tag = "${{'${{needs.ci.outputs.commit_id}}' }}"' charts/${{values.app_name}}/values-${{values.app_env}}.yaml
+          /tmp/yq -Yi \
+  '.image.tag = "${{ needs.ci.outputs.commit_id }}"' \
+  charts/python-app-6/values-dev.yaml
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
