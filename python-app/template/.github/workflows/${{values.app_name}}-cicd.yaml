@@ -34,7 +34,7 @@ jobs:
     runs-on: self-hosted
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_PAT }}
 
@@ -42,7 +42,7 @@ jobs:
         run: |
           curl -L https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /tmp/yq
           chmod +x /tmp/yq
-          
+
       - name: Modify values file
         shell: bash
         run: |
