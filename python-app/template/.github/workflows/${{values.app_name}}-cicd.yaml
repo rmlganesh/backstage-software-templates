@@ -47,15 +47,13 @@ jobs:
         shell: bash
         run: |
           echo ${{ '${{needs.ci.outputs.commit_id}}' }}
-          /tmp/yq -Yi \
-  '.image.tag = "${{ needs.ci.outputs.commit_id }}"' \
-  charts/python-app-6/values-dev.yaml
+          /tmp/yq -i '.image.tag = "${{ '${{ needs.ci.outputs.commit_id }}' }}"' charts/${{values.app_name}}/values-dev.yaml
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
           message: 'Updates values.yaml with commit ${{ '${{needs.ci.outputs.commit_id}}' }}'
-          github_token: ${{ secrets.GH_PAT }}
+          github_token: ${{ '${{ secrets.GH_PAT }}' }}
 
       - name: Install argocd
         shell: bash
